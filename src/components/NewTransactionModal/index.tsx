@@ -27,11 +27,11 @@ export const NewTransactionModal: React.FC = () => (
         <input type="text" placeholder="Category" required />
 
         <TransactionTypeRow>
-          <TransationTypeBtn type="button" variant="income">
+          <TransationTypeBtn value={'income'} variant="income">
             <ArrowCircleUp size={24} />
             Income
           </TransationTypeBtn>
-          <TransationTypeBtn type="button" variant="outcome">
+          <TransationTypeBtn value={'outcome'} variant="outcome">
             <ArrowCircleDown size={24} />
             Outcome
           </TransationTypeBtn>
