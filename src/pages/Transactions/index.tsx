@@ -12,6 +12,7 @@ export const Transactions: React.FC = () => (
 
     <TransctionsContainer>
       <SearchForm />
+
       <TransctionTable>
         <tbody>
           <tr>
