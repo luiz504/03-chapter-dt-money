@@ -1,7 +1,9 @@
 import React from 'react'
 import { ReactComponent as LogoFull } from '~/assets/logo-full.svg'
-import { HeaderContainer, HeaderContent, NewTransationButton } from './styles'
 import * as Dialog from '@radix-ui/react-dialog'
+
+import { HeaderContainer, HeaderContent, NewTransationButton } from './styles'
+import { NewTransactionModal } from '../NewTransactionModal'
 
 export const Header: React.FC = () => (
   <HeaderContainer>
@@ -15,15 +17,7 @@ export const Header: React.FC = () => (
           </NewTransationButton>
         </Dialog.Trigger>
 
-        <Dialog.Portal>
-          <Dialog.Overlay />
-
-          <Dialog.Content>
-            <Dialog.Title>New transaction</Dialog.Title>
-
-            <Dialog.Close />
-          </Dialog.Content>
-        </Dialog.Portal>
+        <NewTransactionModal />
       </Dialog.Root>
     </HeaderContent>
   </HeaderContainer>
