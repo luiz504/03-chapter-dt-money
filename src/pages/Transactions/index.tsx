@@ -3,6 +3,7 @@ import { Header } from '~/components/Header'
 import { Summary } from '~/components/Summary'
 
 import { TransctionsContainer, TransctionTable, PriceHighlight } from './styles'
+import { SearchForm } from './components/SearchForm'
 
 export const Transactions: React.FC = () => (
   <div>
@@ -10,6 +11,7 @@ export const Transactions: React.FC = () => (
     <Summary />
 
     <TransctionsContainer>
+      <SearchForm />
       <TransctionTable>
         <tbody>
           <tr>
