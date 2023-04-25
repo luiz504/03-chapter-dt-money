@@ -75,3 +75,33 @@ export const Form = styled.form`
     }
   }
 `
+
+export const TransactionTypeRow = styled.div`
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-top: 0.5rem;
+`
+
+type TransationTypeBtnProps = {
+  variant: 'income' | 'outcome'
+}
+export const TransationTypeBtn = styled.button<TransationTypeBtnProps>`
+  gap: 0.5rem;
+  padding: 1rem;
+  cursor: pointer;
+
+  border: 0;
+  border-radius: 6px;
+  background-color: ${({ theme }) => theme['gray-700']};
+  color: ${({ theme }) => theme['gray-300']};
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  svg {
+    color: ${({ variant, theme }) =>
+      variant === 'income' ? theme['green-300'] : theme['red-300']};
+  }
+`
