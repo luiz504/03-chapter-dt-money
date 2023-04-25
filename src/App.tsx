@@ -1,14 +1,14 @@
-import styled, { ThemeProvider } from 'styled-components'
+import { ThemeProvider } from 'styled-components'
 
 import { defaultTheme } from './styles/themes/default'
 import { GlobalStyles } from './styles/global'
 
-const Hello = styled.div``
+import { Transactions } from './pages/Transactions'
 
 export function App() {
   return (
     <ThemeProvider theme={defaultTheme}>
-      <Hello>HEllo Word</Hello>
+      <Transactions />
       <GlobalStyles />
     </ThemeProvider>
   )
