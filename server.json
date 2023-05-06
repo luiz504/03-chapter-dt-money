@@ -15,6 +15,14 @@
       "category": "Nourishment",
       "price": 60,
       "created_at": "2023-05-06T12:00:00.107Z"
+    },
+    {
+      "id": "3",
+      "description": "Ignite Bootcamp",
+      "type": "outcome",
+      "category": "Education",
+      "price": 60,
+      "created_at": "2023-05-07T11:00:00.107Z"
     }
   ]
 }
