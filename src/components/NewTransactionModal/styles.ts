@@ -138,4 +138,9 @@ export const TransationTypeBtn = styled(RadioGroup.Item)<TransTypeBtnProps>`
       color: ${({ theme }) => theme.white};
     }
   }
+
+  &[data-submiting='true']:disabled {
+    opacity: 0.6;
+    cursor: progress;
+  }
 `

@@ -1,5 +1,5 @@
 import * as Dialog from '@radix-ui/react-dialog'
-import { useForm } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 
@@ -18,7 +18,7 @@ const newTransactionFormSchema = z.object({
   description: z.string().min(3),
   price: z.number(),
   category: z.string(),
-  // type: z.enum(['income', 'outcome']),
+  type: z.enum(['income', 'outcome']),
 })
 
 type NewTranscationFormInputs = z.infer<typeof newTransactionFormSchema>
@@ -27,12 +27,17 @@ export const NewTransactionModal = () => {
   const {
     register,
     handleSubmit,
-    // formState: { isSubmitting },
+    control,
+    formState: { isSubmitting },
   } = useForm<NewTranscationFormInputs>({
+    defaultValues: {
+      category: '',
+      description: '',
+      price: undefined,
+      type: undefined,
+    },
     resolver: zodResolver(newTransactionFormSchema),
   })
-
-  const isSubmitting = true
 
   const handleCreateNewTransaction = async (data: NewTranscationFormInputs) => {
     await new Promise((resolve) => setTimeout(resolve, 2000))
@@ -74,17 +79,38 @@ export const NewTransactionModal = () => {
             placeholder="Category"
             {...register('category', { disabled: isSubmitting })}
           />
+          <Controller
+            control={control}
+            name="type"
+            render={({ field }) => {
+              return (
+                <TransactionTypeRow
+                  onValueChange={field.onChange}
+                  value={field.value}
+                >
+                  <TransationTypeBtn
+                    value={'income'}
+                    variant="income"
+                    disabled={isSubmitting}
+                    data-submiting={isSubmitting ? 'true' : 'false'}
+                  >
+                    <ArrowCircleUp size={24} />
+                    Income
+                  </TransationTypeBtn>
 
-          <TransactionTypeRow>
-            <TransationTypeBtn value={'income'} variant="income">
-              <ArrowCircleUp size={24} />
-              Income
-            </TransationTypeBtn>
-            <TransationTypeBtn value={'outcome'} variant="outcome">
-              <ArrowCircleDown size={24} />
-              Outcome
-            </TransationTypeBtn>
-          </TransactionTypeRow>
+                  <TransationTypeBtn
+                    value={'outcome'}
+                    variant="outcome"
+                    disabled={isSubmitting}
+                    data-submiting={isSubmitting ? 'true' : 'false'}
+                  >
+                    <ArrowCircleDown size={24} />
+                    Outcome
+                  </TransationTypeBtn>
+                </TransactionTypeRow>
+              )
+            }}
+          />
 
           <button
             type="submit"
