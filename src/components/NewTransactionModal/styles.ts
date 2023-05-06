@@ -10,6 +10,10 @@ export const Overlay = styled(Dialog.Overlay)`
   height: 100vh;
   height: 100svh;
   background-color: rgba(0, 0, 0, 0.75);
+
+  &[data-submiting='true'] {
+    cursor: progress;
+  }
 `
 
 export const Content = styled(Dialog.Content)`
@@ -35,9 +39,15 @@ export const CloseBtn = styled(Dialog.Close)`
   line-height: 0;
   cursor: pointer;
   color: ${({ theme }) => theme['gray-500']};
-  &:hover {
+
+  &:not(:disabled):hover {
     color: ${({ theme }) => theme['gray-300']};
     transition: color 150ms;
+  }
+
+  &[data-submiting='true']:disabled {
+    opacity: 0.6;
+    cursor: progress;
   }
 `
 
@@ -57,6 +67,9 @@ export const Form = styled.form`
     &::placeholder {
       color: ${({ theme }) => theme['gray-500']};
     }
+    &:disabled {
+      cursor: not-allowed;
+    }
   }
 
   button[type='submit'] {
@@ -70,9 +83,14 @@ export const Form = styled.form`
     font-weight: bold;
     cursor: pointer;
 
-    &:hover {
+    &:not(:disabled):hover {
       background: ${({ theme }) => theme['green-700']};
       transition: background-color 150ms;
+    }
+
+    &[data-submiting='true']:disabled {
+      opacity: 0.6;
+      cursor: progress;
     }
   }
 `

@@ -40,5 +40,9 @@ export const SearchFormContainer = styled.form`
 
       transition: background-color 150ms, border-color 150ms, color 150ms;
     }
+    &[data-submiting='true']:disabled {
+      opacity: 0.6;
+      cursor: progress;
+    }
   }
 `
