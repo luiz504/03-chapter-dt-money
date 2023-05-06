@@ -1,34 +1,15 @@
-import React, { useContext } from 'react'
 import { useTheme } from 'styled-components'
 import { ArrowCircleUp, ArrowCircleDown, CurrencyDollar } from 'phosphor-react'
 
-import { TransactionsContext } from '~/contexts/TransactionsContext'
-
-import { ContainerSummary, SummaryCard } from './styles'
 import { priceFormatter } from '~/utils/formatters'
 
-export const Summary: React.FC = () => {
+import { ContainerSummary, SummaryCard } from './styles'
+
+import { useSummaryController } from './controller'
+
+export const Summary = () => {
   const theme = useTheme()
-
-  const { transactions } = useContext(TransactionsContext)
-
-  const summary = transactions.reduce(
-    (acc, transaction) => {
-      if (transaction.type === 'income') {
-        acc.income += transaction.price
-      }
-      if (transaction.type === 'outcome') {
-        acc.outcome += transaction.price
-      }
-      acc.total = acc.income - acc.outcome
-      return acc
-    },
-    {
-      income: 0,
-      outcome: 0,
-      total: 0,
-    },
-  )
+  const { summary } = useSummaryController()
 
   return (
     <ContainerSummary>

@@ -1,4 +1,3 @@
-import React from 'react'
 import * as Dialog from '@radix-ui/react-dialog'
 
 import {
@@ -11,7 +10,7 @@ import {
 } from './styles'
 import { ArrowCircleDown, ArrowCircleUp, X } from 'phosphor-react'
 
-export const NewTransactionModal: React.FC = () => (
+export const NewTransactionModal = () => (
   <Dialog.Portal>
     <Overlay />
 
