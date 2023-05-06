@@ -11,34 +11,41 @@ export type Transaction = {
 
 interface TransactionsContextType {
   transactions: Transaction[]
+  fetchTransactions: (query?: string) => Promise<void>
 }
 
 export const TransactionsContext = createContext<TransactionsContextType>(
   {} as TransactionsContextType,
 )
-const apiBaseUrl = 'http://localhost:3000'
 
 export const TransactionsProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const [transactions, setTransactions] = useState<Transaction[]>([])
 
-  async function loadTransactions() {
+  async function fetchTransactions(query?: string) {
+    const url = new URL('http://localhost:3000/transactions')
+
+    if (query) {
+      url.searchParams.append('q', query)
+    }
+
     try {
-      const response = await fetch(`${apiBaseUrl}/transactions`)
+      const response = await fetch(url)
       const data = await response.json()
 
       setTransactions(data)
     } catch (err) {
-      console.error('error', err)//eslint-disable-line
+      console.error('error 😢', err)//eslint-disable-line
     }
   }
 
   useEffect(() => {
-    loadTransactions()
+    fetchTransactions()
   }, [])
+
   return (
-    <TransactionsContext.Provider value={{ transactions }}>
+    <TransactionsContext.Provider value={{ transactions, fetchTransactions }}>
       {children}
     </TransactionsContext.Provider>
   )
