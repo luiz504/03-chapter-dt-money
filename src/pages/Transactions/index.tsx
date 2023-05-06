@@ -1,39 +1,64 @@
-import React from 'react'
 import { Header } from '~/components/Header'
 import { Summary } from '~/components/Summary'
 
 import { TransctionsContainer, TransctionTable, PriceHighlight } from './styles'
 import { SearchForm } from './components/SearchForm'
+import { useEffect, useState } from 'react'
 
-export const Transactions: React.FC = () => (
-  <div>
-    <Header />
-    <Summary />
+const apiBaseUrl = 'http://localhost:3000'
 
-    <TransctionsContainer>
-      <SearchForm />
+type Transaction = {
+  id: string
+  description: string
+  type: 'income' | 'outcome'
+  price: number
+  category: string
+  created_at: Date
+}
 
-      <TransctionTable>
-        <tbody>
-          <tr>
-            <td width="40%">Site Development</td>
+export const Transactions = () => {
+  const [transactions, setTransactions] = useState<Transaction[]>([])
 
-            <td>
-              <PriceHighlight variant="income">$12000.00</PriceHighlight>
-            </td>
-            <td>Sell</td>
-            <td>24/04/2023</td>
-          </tr>
-          <tr>
-            <td width="40%">Site Development</td>
-            <td>
-              <PriceHighlight variant="outcome">- $12000.00</PriceHighlight>
-            </td>
-            <td>Food</td>
-            <td>24/04/2023</td>
-          </tr>
-        </tbody>
-      </TransctionTable>
-    </TransctionsContainer>
-  </div>
-)
+  async function loadTransactions() {
+    try {
+      const response = await fetch(`${apiBaseUrl}/transactions`)
+      const data = await response.json()
+
+      setTransactions(data)
+    } catch (err) {
+      console.error('error', err)//eslint-disable-line
+    }
+  }
+
+  useEffect(() => {
+    loadTransactions()
+  }, [])
+
+  return (
+    <div>
+      <Header />
+      <Summary />
+
+      <TransctionsContainer>
+        <SearchForm />
+
+        <TransctionTable>
+          <tbody>
+            {transactions.map((transaction) => (
+              <tr key={transaction.id}>
+                <td width="40%">{transaction.description}</td>
+                <td>
+                  <PriceHighlight variant={transaction.type}>
+                    ${transaction.price}
+                  </PriceHighlight>
+                </td>
+                <td>{transaction.category}</td>
+                <td>{transaction.created_at.toString()}</td>
+              </tr>
+            ))}
+          </tbody>
+        </TransctionTable>
+      </TransctionsContainer>
+    </div>
+  )
+}
