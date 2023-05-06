@@ -1,4 +1,5 @@
-import React, { ReactNode, createContext, useEffect, useState } from 'react'
+import React, { ReactNode, useEffect, useState } from 'react'
+import { createContext, useContextSelector } from 'use-context-selector'
 import { api } from '~/lib/axios'
 
 export type Transaction = {
@@ -68,4 +69,10 @@ export const TransactionsProvider: React.FC<{ children: ReactNode }> = ({
       {children}
     </TransactionsContext.Provider>
   )
+}
+
+export function useTransactionsContext<Selected>(
+  selector: (contenxt: TransactionsContextType) => Selected,
+) {
+  return useContextSelector(TransactionsContext, selector)
 }
