@@ -1,3 +1,22 @@
+## DT Money
+
+&nbsp; This project was made following the Ignite Bootcamp 2022, Chapter 3, (API Consume and performance on React), promoted By Rocketseat®
+
+Main Features:
+
+- Create Transaction
+- Show Transactions Summary
+- List Transactions
+- Search on Transactions List
+
+Concepts to learn/revision about:
+
+- API consume
+- State management (locally, globally and scoped)
+- React Rendering understanding;
+- Performance monitoring
+- Performance improvements
+
 ### Why a component re-renders
 
 - State, Context and Props changes
