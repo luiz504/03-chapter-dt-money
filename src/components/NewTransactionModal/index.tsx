@@ -1,9 +1,10 @@
-import * as Dialog from '@radix-ui/react-dialog'
+import { useContext } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 
 import { ArrowCircleDown, ArrowCircleUp, X } from 'phosphor-react'
+import * as Dialog from '@radix-ui/react-dialog'
 
 import {
   Overlay,
@@ -13,6 +14,8 @@ import {
   TransactionTypeRow,
   TransationTypeBtn,
 } from './styles'
+
+import { TransactionsContext } from '~/contexts/TransactionsContext'
 
 const newTransactionFormSchema = z.object({
   description: z.string().min(3),
@@ -29,6 +32,7 @@ export const NewTransactionModal = () => {
     handleSubmit,
     control,
     formState: { isSubmitting },
+    reset,
   } = useForm<NewTranscationFormInputs>({
     defaultValues: {
       category: '',
@@ -39,9 +43,16 @@ export const NewTransactionModal = () => {
     resolver: zodResolver(newTransactionFormSchema),
   })
 
+  const { createTransaction } = useContext(TransactionsContext)
+
   const handleCreateNewTransaction = async (data: NewTranscationFormInputs) => {
-    await new Promise((resolve) => setTimeout(resolve, 2000))
-    console.log('data', data) //eslint-disable-line 
+    try {
+      await createTransaction(data)
+
+      reset()
+    } catch (err) {
+      console.error('Error 😒', err) //eslint-disable-line
+    }
   }
 
   return (
@@ -66,6 +77,7 @@ export const NewTransactionModal = () => {
             placeholder="Description"
             {...register('description', { disabled: isSubmitting })}
           />
+
           <input
             type="number"
             placeholder="Price"
@@ -74,11 +86,13 @@ export const NewTransactionModal = () => {
               disabled: isSubmitting,
             })}
           />
+
           <input
             type="text"
             placeholder="Category"
             {...register('category', { disabled: isSubmitting })}
           />
+
           <Controller
             control={control}
             name="type"

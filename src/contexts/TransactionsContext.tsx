@@ -10,9 +10,17 @@ export type Transaction = {
   created_at: Date
 }
 
+type CreateTransactionDTO = {
+  description: string
+  category: string
+  type: 'income' | 'outcome'
+  price: number
+}
+
 interface TransactionsContextType {
   transactions: Transaction[]
   fetchTransactions: (query?: string) => Promise<void>
+  createTransaction: (data: CreateTransactionDTO) => Promise<void>
 }
 
 export const TransactionsContext = createContext<TransactionsContextType>(
@@ -24,9 +32,24 @@ export const TransactionsProvider: React.FC<{ children: ReactNode }> = ({
 }) => {
   const [transactions, setTransactions] = useState<Transaction[]>([])
 
+  async function createTransaction(data: CreateTransactionDTO) {
+    const { description, price, category, type } = data
+
+    const response = await api.post<Transaction>('/transactions', {
+      description,
+      price,
+      category,
+      type,
+      created_at: new Date().toISOString(),
+    })
+    setTransactions((old) => [response.data, ...old])
+  }
+
   async function fetchTransactions(query?: string) {
     try {
-      const response = await api.get('/transactions', { params: { q: query } })
+      const response = await api.get('/transactions', {
+        params: { _sort: 'created_at', _order: 'desc', q: query },
+      })
 
       setTransactions(response.data)
     } catch (err) {
@@ -39,7 +62,9 @@ export const TransactionsProvider: React.FC<{ children: ReactNode }> = ({
   }, [])
 
   return (
-    <TransactionsContext.Provider value={{ transactions, fetchTransactions }}>
+    <TransactionsContext.Provider
+      value={{ transactions, fetchTransactions, createTransaction }}
+    >
       {children}
     </TransactionsContext.Provider>
   )
