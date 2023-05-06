@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect, useState } from 'react'
+import React, { ReactNode, useCallback, useEffect, useState } from 'react'
 import { createContext, useContextSelector } from 'use-context-selector'
 import { api } from '~/lib/axios'
 
@@ -33,7 +33,23 @@ export const TransactionsProvider: React.FC<{ children: ReactNode }> = ({
 }) => {
   const [transactions, setTransactions] = useState<Transaction[]>([])
 
-  async function createTransaction(data: CreateTransactionDTO) {
+  const fetchTransactions = useCallback(async (query?: string) => {
+    try {
+      const response = await api.get('/transactions', {
+        params: { _sort: 'created_at', _order: 'desc', q: query },
+      })
+
+      setTransactions(response.data)
+    } catch (err) {
+      console.error('error 😢', err)//eslint-disable-line
+    }
+  }, [])
+
+  useEffect(() => {
+    fetchTransactions()
+  }, [fetchTransactions])
+
+  const createTransaction = useCallback(async (data: CreateTransactionDTO) => {
     const { description, price, category, type } = data
 
     const response = await api.post<Transaction>('/transactions', {
@@ -44,22 +60,6 @@ export const TransactionsProvider: React.FC<{ children: ReactNode }> = ({
       created_at: new Date().toISOString(),
     })
     setTransactions((old) => [response.data, ...old])
-  }
-
-  async function fetchTransactions(query?: string) {
-    try {
-      const response = await api.get('/transactions', {
-        params: { _sort: 'created_at', _order: 'desc', q: query },
-      })
-
-      setTransactions(response.data)
-    } catch (err) {
-      console.error('error 😢', err)//eslint-disable-line
-    }
-  }
-
-  useEffect(() => {
-    fetchTransactions()
   }, [])
 
   return (
