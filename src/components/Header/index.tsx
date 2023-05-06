@@ -3,6 +3,7 @@ import * as Dialog from '@radix-ui/react-dialog'
 
 import { HeaderContainer, HeaderContent, NewTransationButton } from './styles'
 import { NewTransactionModal } from '../NewTransactionModal'
+import { Plus } from 'phosphor-react'
 
 export const Header = () => (
   <HeaderContainer>
@@ -12,7 +13,8 @@ export const Header = () => (
       <Dialog.Root>
         <Dialog.Trigger asChild>
           <NewTransationButton type="button" contentEditable={false}>
-            New Transaction
+            <Plus size={24} weight="bold" />
+            <span>New Transaction</span>
           </NewTransationButton>
         </Dialog.Trigger>
 

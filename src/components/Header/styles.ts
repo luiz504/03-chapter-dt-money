@@ -24,9 +24,22 @@ export const NewTransationButton = styled.button`
   font-weight: bold;
   padding: 0.25rem 1.125rem;
   border-radius: 6px;
+  > svg {
+    display: none;
+  }
 
   &:hover:not(:disabled) {
     background: ${({ theme }) => theme['green-700']};
     transition: background-color 150ms;
+  }
+
+  @media (max-width: 768px) {
+    padding: 0.25rem 1rem;
+    > svg {
+      display: initial;
+    }
+    > span {
+      display: none;
+    }
   }
 `

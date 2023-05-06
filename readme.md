@@ -56,3 +56,11 @@ Concepts to learn/revision about:
 - You should use React.memo when you have a functional component that is expensive to render and receives the same props frequently, or when you want to prevent unnecessary re-renders of a child component.
 
 <small><strong style="color:red">&nbsp; &nbsp; Its usage follows the same aspects of the previos Hooks described.</strong></small>
+
+### Instructions to run the Project
+
+```bash
+npm install
+npm run dev:server
+npm run dev
+```

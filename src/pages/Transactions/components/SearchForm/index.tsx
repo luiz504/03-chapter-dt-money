@@ -38,7 +38,7 @@ export const SearchForm: React.FC = () => {
         data-submiting={isSubmitting ? 'true' : 'false'}
       >
         <MagnifyingGlass size={20} />
-        Search
+        <span>Search</span>
       </button>
     </SearchFormContainer>
   )

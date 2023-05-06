@@ -1,4 +1,5 @@
 import styled, { css } from 'styled-components'
+import { scrollbarDark } from '~/styles/schrollbars'
 
 export const ContainerSummary = styled.section`
   width: 100%;
@@ -7,10 +8,13 @@ export const ContainerSummary = styled.section`
   padding: 0 1.5rem;
 
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(200px, 1fr));
   gap: 2rem;
 
   margin-top: -5rem;
+  overflow: auto;
+
+  ${scrollbarDark}
 `
 
 interface SummaryCardProps {
@@ -21,6 +25,7 @@ export const SummaryCard = styled.div<SummaryCardProps>`
   background-color: ${({ theme }) => theme['gray-600']};
   border-radius: 6px;
   padding: 2rem;
+  margin-bottom: 0.5rem;
 
   header {
     display: flex;

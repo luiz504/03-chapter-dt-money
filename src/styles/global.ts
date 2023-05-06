@@ -1,4 +1,5 @@
 import * as styled from 'styled-components'
+import { scrollbarDark } from './schrollbars'
 
 export const GlobalStyles = styled.createGlobalStyle`
   * {
@@ -23,5 +24,14 @@ export const GlobalStyles = styled.createGlobalStyle`
   textarea,
   button {
     font: 400 1rem 'Roboto', sans-serif;
+  }
+
+  @media (max-width: 768px) {
+    html {
+      font-size: 87.5%;
+    }
+  }
+  body {
+    ${scrollbarDark}
   }
 `
