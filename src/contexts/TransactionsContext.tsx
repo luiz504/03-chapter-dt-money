@@ -1,4 +1,5 @@
 import React, { ReactNode, createContext, useEffect, useState } from 'react'
+import { api } from '~/lib/axios'
 
 export type Transaction = {
   id: string
@@ -24,17 +25,10 @@ export const TransactionsProvider: React.FC<{ children: ReactNode }> = ({
   const [transactions, setTransactions] = useState<Transaction[]>([])
 
   async function fetchTransactions(query?: string) {
-    const url = new URL('http://localhost:3000/transactions')
-
-    if (query) {
-      url.searchParams.append('q', query)
-    }
-
     try {
-      const response = await fetch(url)
-      const data = await response.json()
+      const response = await api.get('/transactions', { params: { q: query } })
 
-      setTransactions(data)
+      setTransactions(response.data)
     } catch (err) {
       console.error('error 😢', err)//eslint-disable-line
     }
