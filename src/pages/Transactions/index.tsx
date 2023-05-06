@@ -1,38 +1,18 @@
+import { useContext } from 'react'
+
+// CONTEXT
+import { TransactionsContext } from '~/contexts/TransactionsContext'
+
+// COMPONENTS
 import { Header } from '~/components/Header'
 import { Summary } from '~/components/Summary'
-
-import { TransctionsContainer, TransctionTable, PriceHighlight } from './styles'
 import { SearchForm } from './components/SearchForm'
-import { useEffect, useState } from 'react'
 
-const apiBaseUrl = 'http://localhost:3000'
-
-type Transaction = {
-  id: string
-  description: string
-  type: 'income' | 'outcome'
-  price: number
-  category: string
-  created_at: Date
-}
+// STYLES
+import { TransctionsContainer, TransctionTable, PriceHighlight } from './styles'
 
 export const Transactions = () => {
-  const [transactions, setTransactions] = useState<Transaction[]>([])
-
-  async function loadTransactions() {
-    try {
-      const response = await fetch(`${apiBaseUrl}/transactions`)
-      const data = await response.json()
-
-      setTransactions(data)
-    } catch (err) {
-      console.error('error', err)//eslint-disable-line
-    }
-  }
-
-  useEffect(() => {
-    loadTransactions()
-  }, [])
+  const { transactions } = useContext(TransactionsContext)
 
   return (
     <div>
